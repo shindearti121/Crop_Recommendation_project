@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌾 Smart Crop Advisor - Your Farming Companion</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <span class="logo-emoji">🌾</span>
+                <h1 class="logo-text">Smart Crop Advisor</h1>
+            </div>
+            <p class="tagline">Empowering Farmers with AI-Powered Crop Recommendations</p>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Welcome Section -->
+        <section class="welcome-section">
+            <div class="welcome-card">
+                <h2>👋 Welcome, Farmer!</h2>
+                <p>Get personalized crop recommendations based on your soil and weather conditions. Simply enter your field parameters below, and our AI will suggest the best crops for you.</p>
+                <div class="feature-highlights">
+                    <div class="feature-item">
+                        <span class="feature-icon">🎯</span>
+                        <span>Accurate Predictions</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">📊</span>
+                        <span>Top 3 Recommendations</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">💡</span>
+                        <span>Farming Tips</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🌱</span>
+                        <span>22+ Crops</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Form Section -->
+        <section class="form-section">
+            <div class="form-card">
+                <h2 class="form-title">
+                    <span class="title-icon">📝</span>
+                    Enter Your Field Details
+                </h2>
+                <p class="form-subtitle">Fill in your soil and weather parameters. Don't worry if you're unsure - hover over the <span class="help-icon">ℹ️</span> icons for guidance!</p>
+                
+                <form method="POST" id="cropForm" class="crop-form">
+                    <div class="form-grid">
+                        <!-- Nitrogen -->
+                        <div class="input-group">
+                            <label for="N" class="input-label">
+                                Nitrogen (N) <span class="unit">ppm</span>
+                                <span class="info-icon" data-tooltip="Nitrogen promotes leaf growth. Typical range: 20-100 ppm">ℹ️</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <input type="range" id="N_slider" min="0" max="140" value="50" step="1" class="slider">
+                                <input type="number" id="N" name="N" min="0" max="140" value="50" step="1" required class="number-input">
+                            </div>
+                            <div class="range-indicator">
+                                <span>Low</span>
+                                <span>Optimal</span>
+                                <span>High</span>
+                            </div>
+                        </div>
+
+                        <!-- Phosphorus -->
+                        <div class="input-group">
+                            <label for="P" class="input-label">
+                                Phosphorus (P) <span class="unit">ppm</span>
+                                <span class="info-icon" data-tooltip="Phosphorus helps root development and flowering. Typical range: 10-50 ppm">ℹ️</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <input type="range" id="P_slider" min="0" max="145" value="30" step="1" class="slider">
+                                <input type="number" id="P" name="P" min="0" max="145" value="30" step="1" required class="number-input">
+                            </div>
+                            <div class="range-indicator">
+                                <span>Low</span>
+                                <span>Optimal</span>
+                                <span>High</span>
+                            </div>
+                        </div>
+
+                        <!-- Potassium -->
+                        <div class="input-group">
+                            <label for="K" class="input-label">
+                                Potassium (K) <span class="unit">ppm</span>
+                                <span class="info-icon" data-tooltip="Potassium improves disease resistance and fruit quality. Typical range: 20-100 ppm">ℹ️</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <input type="range" id="K_slider" min="0" max="205" value="40" step="1" class="slider">
+                                <input type="number" id="K" name="K" min="0" max="205" value="40" step="1" required class="number-input">
+                            </div>
+                            <div class="range-indicator">
+                                <span>Low</span>
+                                <span>Optimal</span>
+                                <span>High</span>
+                            </div>
+                        </div>
+
+                        <!-- Temperature -->
+                        <div class="input-group">
+                            <label for="temperature" class="input-label">
+                                Temperature <span class="unit">°C</span>
+                                <span class="info-icon" data-tooltip="Average temperature in your region. Most crops prefer 20-30°C">ℹ️</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <input type="range" id="temperature_slider" min="8" max="44" value="25" step="0.1" class="slider">
+                                <input type="number" id="temperature" name="temperature" min="8" max="44" value="25" step="0.1" required class="number-input">
+                            </div>
+                            <div class="range-indicator">
+                                <span>Cool</span>
+                                <span>Optimal</span>
+                                <span>Hot</span>
+                            </div>
+                        </div>
+
+                        <!-- Humidity -->
+                        <div class="input-group">
+                            <label for="humidity" class="input-label">
+                                Humidity <span class="unit">%</span>
+                                <span class="info-icon" data-tooltip="Relative humidity level. Most crops prefer 50-90%">ℹ️</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <input type="range" id="humidity_slider" min="14" max="100" value="70" step="0.1" class="slider">
+                                <input type="number" id="humidity" name="humidity" min="14" max="100" value="70" step="0.1" required class="number-input">
+                            </div>
+                            <div class="range-indicator">
+                                <span>Dry</span>
+                                <span>Optimal</span>
+                                <span>Humid</span>
+                            </div>
+                        </div>
+
+                        <!-- pH -->
+                        <div class="input-group">
+                            <label for="ph" class="input-label">
+                                Soil pH <span class="unit">scale</span>
+                                <span class="info-icon" data-tooltip="Soil acidity/alkalinity. Most crops prefer pH 6.0-7.5 (slightly acidic to neutral)">ℹ️</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <input type="range" id="ph_slider" min="3.5" max="10" value="6.5" step="0.1" class="slider">
+                                <input type="number" id="ph" name="ph" min="3.5" max="10" value="6.5" step="0.1" required class="number-input">
+                            </div>
+                            <div class="range-indicator">
+                                <span>Acidic</span>
+                                <span>Neutral</span>
+                                <span>Alkaline</span>
+                            </div>
+                        </div>
+
+                        <!-- Rainfall -->
+                        <div class="input-group">
+                            <label for="rainfall" class="input-label">
+                                Rainfall <span class="unit">mm</span>
+                                <span class="info-icon" data-tooltip="Annual or seasonal rainfall. Most crops need 100-250mm">ℹ️</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <input type="range" id="rainfall_slider" min="20" max="300" value="150" step="1" class="slider">
+                                <input type="number" id="rainfall" name="rainfall" min="20" max="300" value="150" step="1" required class="number-input">
+                            </div>
+                            <div class="range-indicator">
+                                <span>Low</span>
+                                <span>Optimal</span>
+                                <span>High</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        <span class="btn-icon">🔍</span>
+                        <span class="btn-text">Get Crop Recommendations</span>
+                        <span class="btn-loader" style="display: none;">⏳</span>
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        {% if result %}
+        <section class="results-section" id="resultsSection">
+            {% if result.error %}
+            <div class="error-card">
+                <span class="error-icon">⚠️</span>
+                <h3>Oops! Something went wrong</h3>
+                <p>{{ result.error }}</p>
+            </div>
+            {% else %}
+            <!-- Top Recommendation -->
+            <div class="result-card main-result">
+                <div class="result-header">
+                    <div class="result-badge">⭐ Best Match</div>
+                    <div class="crop-emoji-large">{{ result.info.emoji if result.info.emoji else '🌾' }}</div>
+                </div>
+                <h2 class="crop-name">{{ result.info.name if result.info.name else result.crop.title() }}</h2>
+                <p class="crop-description">{{ result.info.description if result.info.description else 'A great choice for your field conditions!' }}</p>
+                
+                <div class="crop-details">
+                    <div class="detail-item">
+                        <span class="detail-label">🌤️ Season:</span>
+                        <span class="detail-value">{{ result.info.season if result.info.season else 'Year-round' }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">⏱️ Duration:</span>
+                        <span class="detail-value">{{ result.info.duration if result.info.duration else 'Varies' }}</span>
+                    </div>
+                </div>
+
+                {% if result.info.tips %}
+                <div class="tips-section">
+                    <h3 class="tips-title">💡 Farming Tips</h3>
+                    <ul class="tips-list">
+                        {% for tip in result.info.tips %}
+                        <li>{{ tip }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Top 3 Recommendations -->
+            {% if top_crops %}
+            <div class="top-crops-section">
+                <h3 class="section-title">📊 Top 3 Recommendations</h3>
+                <div class="top-crops-grid">
+                    {% for crop in top_crops %}
+                    <div class="crop-card {% if loop.index == 1 %}top-choice{% endif %}">
+                        <div class="crop-rank">#{{ loop.index }}</div>
+                        <div class="crop-emoji">{{ crop.info.emoji if crop.info.emoji else '🌾' }}</div>
+                        <h4 class="crop-card-name">{{ crop.info.name if crop.info.name else crop.name.title() }}</h4>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" style="width: {{ crop.confidence }}%"></div>
+                        </div>
+                        <p class="confidence-text">{{ crop.confidence }}% Match</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Input Summary -->
+            {% if input_data %}
+            <div class="input-summary-card">
+                <h3 class="section-title">📋 Your Input Summary</h3>
+                <div class="summary-grid">
+                    <div class="summary-item">
+                        <span class="summary-label">N:</span>
+                        <span class="summary-value">{{ input_data.N }} ppm</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">P:</span>
+                        <span class="summary-value">{{ input_data.P }} ppm</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">K:</span>
+                        <span class="summary-value">{{ input_data.K }} ppm</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Temp:</span>
+                        <span class="summary-value">{{ input_data.temperature }}°C</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Humidity:</span>
+                        <span class="summary-value">{{ input_data.humidity }}%</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">pH:</span>
+                        <span class="summary-value">{{ input_data.ph }}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Rainfall:</span>
+                        <span class="summary-value">{{ input_data.rainfall }} mm</span>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endif %}
+        </section>
+        {% endif %}
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Made with ❤️ for Farmers | Powered by Machine Learning</p>
+            <p class="footer-note">Always consult with local agricultural experts for best results</p>
+        </footer>
+    </div>
+
+    <!-- Tooltip Container -->
+    <div class="tooltip" id="tooltip"></div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
